@@ -45,7 +45,7 @@ class AuthController extends Controller
 
      Auth::login($user);
 
-    return redirect()->route('article');
+    return redirect()->route('create');
     }
 
     

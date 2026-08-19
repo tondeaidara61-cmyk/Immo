@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{asset('css/login.css')}}">
   
 </head>
+@stack('scripts')
 <body>
     
     <div>

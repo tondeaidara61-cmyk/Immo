@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('specification_id')->constrained('specifications')->cascadeOnDelete();
             $table->string('title');
-            $table->string('surface');
+            $table->decimal('surface', 5,2);
             $table->decimal('prix', 10,2);
             $table->string('description')->nullable();
             $table->integer('piece');
