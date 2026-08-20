@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class galerie extends Model
 {
-    public $fillable = [
+    protected $fillable = [
         'chemin',
         'article_id',
     ];

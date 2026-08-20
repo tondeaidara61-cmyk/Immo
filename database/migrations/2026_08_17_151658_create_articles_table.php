@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('chambre');
             $table->integer('etage');
             $table->string('ville');
+            
             $table->string('commune');
             $table->string('quatier');
             $table->string('image');

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-    public $fillable = [
+    protected $fillable = [
         'title',
         'specification',
         'prix',
@@ -24,4 +24,10 @@ class Article extends Model
     {
         return $this->belongsTo(Specification::class);
     }
+
+    public function images()
+{
+    return $this->hasMany(galerie::class);
+}
+
 }

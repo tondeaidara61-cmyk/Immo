@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Specification extends Model
 {
-    public $fillable = [
+    protected $fillable = [
         'name',
     ];
 

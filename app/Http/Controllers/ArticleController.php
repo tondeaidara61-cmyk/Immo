@@ -59,6 +59,8 @@ class ArticleController extends Controller
         'description' => 'nullable|string',
         'images' => 'nullable|array',
         'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+        'specifications'=>'nullable',
+        'specifications.*'=>'exists:specifications,id',
     ],
     [
         'required' => 'Ce champ est obligatoire.',
@@ -68,6 +70,7 @@ class ArticleController extends Controller
         'min' => 'Ce champ ne respecte pas la valeur minimale requise.',
         'image' => 'Le fichier doit être une image.',
         'mimes' => 'Le format accepté est : jpg, jpeg, png, webp.',
+        'exists' => 'Une spécification sélectionnée est invalide.'
     ]
 );
 
@@ -88,6 +91,21 @@ class ArticleController extends Controller
             'image'=>$imagePath,
         ]
     );
+
+    $article ->Specification()->sync($validation['specifications'] ?? []);
+
+     if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $index => $image) {
+            $path = $image->store('articles/galerie', 'public');
+
+            $article->articles()->create([
+                'chemin' => $path,
+                'ordre' => $index,
+            ]);
+        }
+    }
+
+    return redirect()->route('create')->with('success','Article ajouté avec succès.');
     }
 
     /**
