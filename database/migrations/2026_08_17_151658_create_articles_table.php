@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('specification_id')->constrained('specifications')->cascadeOnDelete();
+
             $table->string('title');
-            $table->decimal('surface', 5,2);
-            $table->decimal('prix', 10,2);
+            $table->decimal('surface', 5, 2);
+            $table->decimal('prix', 10, 2);
             $table->string('description')->nullable();
             $table->integer('piece');
             $table->integer('chambre');
             $table->integer('etage');
             $table->string('ville');
-            
+
             $table->string('commune');
             $table->string('quatier');
             $table->string('image');

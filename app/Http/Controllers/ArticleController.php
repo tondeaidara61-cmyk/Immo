@@ -20,92 +20,118 @@ class ArticleController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-        public function create()
-        {
-            $villes = [
-                'Abidjan', 'Yamoussoukro', 'Bouaké', 'Daloa', 'San-Pédro',
-                'Korhogo', 'Man', 'Divo', 'Gagnoa', 'Abengourou',
-                'Anyama', 'Agboville', 'Grand-Bassam', 'Dabou', 'Bondoukou',
-                'Séguéla', 'Bouna', 'Odienné', 'Soubré', 'Aboisso',
-            ];
+    public function create()
+    {
+        $villes = [
+            'Abidjan',
+            'Yamoussoukro',
+            'Bouaké',
+            'Daloa',
+            'San-Pédro',
+            'Korhogo',
+            'Man',
+            'Divo',
+            'Gagnoa',
+            'Abengourou',
+            'Anyama',
+            'Agboville',
+            'Grand-Bassam',
+            'Dabou',
+            'Bondoukou',
+            'Séguéla',
+            'Bouna',
+            'Odienné',
+            'Soubré',
+            'Aboisso',
+        ];
 
-            $communes = [
-               ' Abobo', 'Adjamé','Attécoubé', 'Cocody',
-                 'Koumassi', 'Marcory', 'Plateau', 'Port-Bouët', 'Treichville', 
-                 'Yopougon', 'Bingerville', 'Songon', 'Anyama'
-            ];
+        $communes = [
+            ' Abobo',
+            'Adjamé',
+            'Attécoubé',
+            'Cocody',
+            'Koumassi',
+            'Marcory',
+            'Plateau',
+            'Port-Bouët',
+            'Treichville',
+            'Yopougon',
+            'Bingerville',
+            'Songon',
+            'Anyama'
+        ];
 
-            $specifications = Specification::all();
+        $specifications = Specification::all();
 
-            return view('admin.fonctionnalite.articles.create', compact('villes','communes','specifications'));
-        }
+        return view('admin.fonctionnalite.articles.create', compact('villes', 'communes', 'specifications'));
+    }
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-       $validation = $request->validate(
-    [
-        'title' => 'required|string|max:255',
-        'surface' => 'required|numeric|min:1',
-        'prix' => 'required|numeric|min:1',
-        'piece' => 'required|integer|min:1',
-        'chambre' => 'required|integer|min:0',
-        'etage' => 'nullable|integer|min:0',
-        'ville' => 'required|string',
-        'commune' => 'required|string',
-        'quatier' => 'nullable|string|max:255',
-        'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
-        'description' => 'nullable|string',
-        'images' => 'nullable|array',
-        'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
-        'specifications'=>'nullable',
-        'specifications.*'=>'exists:specifications,id',
-    ],
-    [
-        'required' => 'Ce champ est obligatoire.',
-        'numeric' => 'Ce champ doit être un nombre.',
-        'integer' => 'Ce champ doit être un nombre entier.',
-        'max' => 'Ce champ dépasse la longueur ou la taille autorisée.',
-        'min' => 'Ce champ ne respecte pas la valeur minimale requise.',
-        'image' => 'Le fichier doit être une image.',
-        'mimes' => 'Le format accepté est : jpg, jpeg, png, webp.',
-        'exists' => 'Une spécification sélectionnée est invalide.'
-    ]
-);
+        $validation = $request->validate(
+            [
+                'title' => 'required|string|max:255',
+                'surface' => 'required|numeric|min:1',
+                'prix' => 'required|numeric|min:1',
+                'piece' => 'required|integer|min:1',
+                'chambre' => 'required|integer|min:0',
+                'etage' => 'nullable|integer|min:0',
+                'ville' => 'required|string',
+                'commune' => 'required|string',
+                'quatier' => 'nullable|string|max:255',
+                'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+                'description' => 'nullable|string',
+                'images' => 'nullable|array',
+                'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+                'specifications' => 'nullable',
+                'specifications.*' => 'exists:specifications,id',
+            ],
+            [
+                'required' => 'Ce champ est obligatoire.',
+                'numeric' => 'Ce champ doit être un nombre.',
+                'integer' => 'Ce champ doit être un nombre entier.',
+                'max' => 'Ce champ dépasse la longueur ou la taille autorisée.',
+                'min' => 'Ce champ ne respecte pas la valeur minimale requise.',
+                'image' => 'Le fichier doit être une image.',
+                'mimes' => 'Le format accepté est : jpg, jpeg, png, webp.',
+                'exists' => 'Une spécification sélectionnée est invalide.'
+            ]
+        );
 
-     $imagePath = $request->file('image')->store('articles','public');
+        $imagePath = $request->file('image')->store('articles', 'public');
 
-    $article =  Article::create(
-        [
-            'title'=>$validation['title'],
-            'surface'=>$validation['surface'],
-            'piece'=>$validation['piece'],
-            'ville'=>$validation['ville'],
-            'commune'=>$validation['commune'],
-            'etage'=>$validation['etage'],
-            'quatier'=>$validation['quatier'],
-            'chambre'=>$validation['chambre'],
-            'description'=>$validation['description'],
-            'prix'=>$validation['prix'],
-            'image'=>$imagePath,
-        ]
-    );
+        $article =  Article::create(
+            [
+                'title' => $validation['title'],
+                'surface' => $validation['surface'],
+                'piece' => $validation['piece'],
+                'ville' => $validation['ville'],
+                'commune' => $validation['commune'],
+                'etage' => $validation['etage'],
+                'quatier' => $validation['quatier'],
+                'chambre' => $validation['chambre'],
+                'description' => $validation['description'],
+                'prix' => $validation['prix'],
+                'image' => $imagePath,
+            ]
+        );
 
-    $article ->Specification()->sync($validation['specifications'] ?? []);
+        $article->Specifications()->sync($validation['specifications'] ?? []);
 
-     if ($request->hasFile('images')) {
-        foreach ($request->file('images') as $index => $image) {
-            $path = $image->store('articles/galerie', 'public');
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $index => $image) {
+                $path = $image->store('articles/galerie', 'public');
 
-            $article->articles()->create([
-                'chemin' => $path,
-                'ordre' => $index,
-            ]);
+                $article->galeries()->create([
+                    'chemin' => $path,
+                    'ordre' => $index,
+                ]);
+            }
         }
-    }
 
-    return redirect()->route('create')->with('success','Article ajouté avec succès.');
+        return redirect()->route('create')->with('success', 'Article ajouté avec succès.');
     }
 
     /**

@@ -17,17 +17,17 @@ class Article extends Model
         'chambre',
         'piece',
         'description',
-        'surface'
+        'surface',
+        'image'
     ];
 
-    public function specification()
+    public function specifications()
     {
-        return $this->belongsTo(Specification::class);
+        return $this->belongsToMany(Specification::class);
     }
 
-    public function images()
-{
-    return $this->hasMany(galerie::class);
-}
-
+    public function galeries()
+    {
+        return $this->hasMany(galerie::class);
+    }
 }
