@@ -45,8 +45,18 @@ class AuthController extends Controller
 
      Auth::login($user);
 
-    return redirect()->route('create');
+    return redirect()->route('articles.index');
     }
 
+
+public function logout(Request $request)
+{
+    Auth::logout();
+
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect()->route('login')->with('success', 'Déconnexion réussie.');
+}
     
 }

@@ -11,17 +11,19 @@ class SpecificationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        return view('admin.fonctionnalite.specifications.create');
-    }
+public function index()
+{
+    $specifications = Specification::latest()->paginate(10);
 
+    return view('admin.fonctionnalite.specifications.index', compact('specifications'));
+}
+   
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+         return view('admin.fonctionnalite.specifications.create');
     }
 
     /**
@@ -47,35 +49,35 @@ public function store(Request $request)
     return redirect()->route('specifications.index')->with('success', 'Spécification ajoutée avec succès.');
 }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        public function edit(Specification $specification)
+        {
+            return view('admin.fonctionnalite.specifications.edit', compact('specification'));
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+        public function update(Request $request, Specification $specification)
+        {
+            $validation = $request->validate(
+                [
+                    'name' => 'required|string|max:255|unique:specifications,name,' . $specification->id,
+                    'icon' => 'nullable|string|max:255',
+                ],
+                [
+                    'required' => 'Ce champ est obligatoire.',
+                    'unique' => 'Cette spécification existe déjà.',
+                    'max' => 'Ce champ dépasse la longueur autorisée.',
+                ]
+            );
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+            $specification->update($validation);
+
+            return redirect()->route('specifications.index')->with('success', 'Spécification modifiée avec succès.');
+        }
+
+        public function destroy(Specification $specification)
+        {
+            $specification->delete();
+
+            return redirect()->route('specifications.index')->with('success', 'Spécification supprimée avec succès.');
+        }
 }

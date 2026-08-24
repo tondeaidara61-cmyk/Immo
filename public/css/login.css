@@ -31,6 +31,7 @@ label{
 @media (max-width: 767px) {
     .login-image {
         height: 40vh;
+       
     }
 
 }
@@ -45,6 +46,8 @@ label{
     .login-form-col {
         justify-content: flex-start;
         padding-top: 2rem;
+       
+       
     }
 
     .form-control{

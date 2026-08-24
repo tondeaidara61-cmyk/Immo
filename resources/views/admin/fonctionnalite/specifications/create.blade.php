@@ -1,4 +1,4 @@
-@extends('admin.app')
+@extends('admin.dashboards.dashboard')
 
 @section('title', 'Ajouter une spécification')
 
@@ -9,7 +9,7 @@
 
             <h1 class="h4 mb-4 fw-bold">Ajouter une spécification</h1>
 
-            <form action="{{route("spe_store")}}" method="post" class="row g-3">
+            <form action="{{route("specifications.store")}}" method="post" class="row g-3">
                 @csrf
 
                 <div class="col-md-8">

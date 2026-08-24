@@ -1,3 +1,7 @@
+body {
+    margin: 0;
+    padding: 0;
+}
 .form-control:focus {
     border-color: #D4A017;
     box-shadow: 0 0 0 0.25rem rgba(212, 160, 23, 0.25);
@@ -17,13 +21,36 @@ label{
     font-weight: 600;
 }
 
+/* ===== Layout fixe : header + sidebar ne scrollent pas ===== */
+
+.navbar { /* adapte au vrai sélecteur de ton header si différent */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px; /* adapte à la hauteur réelle de ton header */
+    z-index: 1030;
+}
+
+.sidebar {
+    position: fixed;
+    top: 70px; /* = hauteur du header */
+    left: 0;
+    height: calc(100vh - 70px);
+    overflow-y: auto;
+    z-index: 1020;
+}
+
+.flex-grow-1.p-4 {
+    margin-top: 70px;
+    margin-left: 280px;
+    width: calc(100% - 280px);
+}
+
 @media (max-width: 767px) {
     .login-image {
         height: 40vh;
     }
-
-}
-@media (max-width: 767px) {
     .row.vh-100 {
         height: auto;
         min-height: 100vh;
@@ -36,12 +63,60 @@ label{
     }
 
     .form-control{
-    border-bottom: 3px solid #D4A017;
-}
+        border-bottom: 3px solid #D4A017;
+    }
 
-.login-form-col{
-    padding-bottom: 10px;
-    margin-top: 50px;
-}
+    .login-form-col{
+        padding-bottom: 10px;
+        margin-top: 50px;
+    }
 
+    /* Sur mobile, le sidebar en position:fixed prend trop de place.
+       Ici on le repasse en flux normal pour éviter que le contenu soit écrasé. */
+    .sidebar {
+        position: static;
+        height: auto;
+        width: 100%;
+    }
+
+    .flex-grow-1.p-4 {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        height: calc(100vh - 70px);
+        width: 280px;
+        transform: translateX(-100%); /* caché hors écran à gauche */
+        transition: transform 0.3s ease;
+        z-index: 1040;
+    }
+
+    .sidebar.show {
+        transform: translateX(0); /* visible quand on ajoute la classe .show */
+    }
+
+    .flex-grow-1.p-4 {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    /* overlay sombre derrière le sidebar quand ouvert */
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 1035;
+    }
+
+    .sidebar-overlay.show {
+        display: block;
+    }
 }
